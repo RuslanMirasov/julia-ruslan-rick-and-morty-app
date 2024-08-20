@@ -1,4 +1,4 @@
-export function createCharacterCard(card) {
+function createCharacterCard(card) {
   const { image, name, status, type, episode } = card;
   const newCard = `
         <li class="card">
@@ -25,3 +25,11 @@ export function createCharacterCard(card) {
     `;
   return newCard;
 }
+
+export const renderCardsMarkup = (cards, cardContainer) => {
+  const cardsMarkup = [];
+  cards.forEach((element) => {
+    cardsMarkup.push(createCharacterCard(element));
+  });
+  cardContainer.innerHTML = cardsMarkup.join("");
+};
