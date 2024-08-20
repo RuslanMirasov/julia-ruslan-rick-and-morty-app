@@ -1,31 +1,27 @@
-export function createCharacterCard() {
-  const newCard = document.createElement("ul");
-  newCard.classList.add("   ");
-
-  newCard.innerHTML = `
-    <ul class="card-container" data-js="card-container">
+export function createCharacterCard(card) {
+  const { image, name, status, type, episode } = card;
+  const newCard = `
         <li class="card">
           <div class="card__image-container">
             <img
               class="card__image"
-              src="https://rickandmortyapi.com/api/character/avatar/1.jpeg"
-              alt="Rick Sanchez"
+              src="${image} "
+              alt="${name}"
             />
             <div class="card__image-gradient"></div>
           </div>
           <div class="card__content">
-            <h2 class="card__title">Rick Sanchez</h2>
+            <h2 class="card__title">${name}</h2>
             <dl class="card__info">
               <dt class="card__info-title">Status</dt>
-              <dd class="card__info-description">Alive</dd>
+              <dd class="card__info-description">${status}</dd>
               <dt class="card__info-title">Type</dt>
-              <dd class="card__info-description"></dd>
+              <dd class="card__info-description">${type}</dd>
               <dt class="card__info-title">Occurrences</dt>
-              <dd class="card__info-description">51</dd>
+              <dd class="card__info-description">${episode.length}</dd>
             </dl>
           </div>
         </li>
-      </ul>
-    
     `;
+  return newCard;
 }
