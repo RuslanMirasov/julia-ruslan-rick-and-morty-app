@@ -39,3 +39,12 @@ export const renderCardsMarkup = (cards) => {
   const cardsMarkup = cards.map(createCharacterCard).join("");
   cardContainer.innerHTML = cardsMarkup;
 };
+
+export const loadImages = () => {
+  const images = cardContainer.querySelectorAll("img");
+  images.forEach((image) => {
+    image.addEventListener("load", (e) => {
+      e.target.style.opacity = "1";
+    });
+  });
+};

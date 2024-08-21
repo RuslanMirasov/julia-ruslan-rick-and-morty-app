@@ -1,32 +1,68 @@
+@import "components/header/header.css";
 @import "components/card/card.css";
 @import "components/search-bar/search-bar.css";
 @import "components/nav-button/nav-button.css";
 @import "components/nav-pagination/nav-pagination.css";
 
-* {
+*,
+*:before,
+*:after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
 :root {
+  --background: rgb(25, 25, 25);
   --color-primary: rgb(51, 51, 51);
   --color-secondary: #f6f6f6;
+  --color-red: #cf112b;
+  --color-red-hover: #e63149;
   --font-family: system-ui;
+  --card-bg: #3f3f3f;
+  --card-img-bg: #808080;
 }
 
 body {
+  position: relative;
   font-family: var(--font-family);
   color: var(--color-primary);
   padding: 20px;
+  font-size: 16px;
+  background: var(--background);
+}
+
+body:before {
+  content: "";
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  background: url("./assets/noise.gif");
+  opacity: 0.1;
 }
 
 main {
   display: flex;
+  position: relative;
+  z-index: 2;
   flex-direction: column;
   gap: 10px;
+  padding-bottom: 40px;
 }
 
 .title {
-  padding: 10px 0;
+  display: block;
+  position: relative;
+  text-align: center;
+  position: relative;
+  margin-top: -40px;
+  font-size: 3rem;
+}
+
+@media (max-width: 767px) {
+  .title {
+    font-size: 2.5rem;
+  }
 }
