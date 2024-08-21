@@ -6,7 +6,7 @@ export const hideNavigation = () => {
 
 export const updateNavigation = (page, pages) => {
   if (pages > 1) {
-    navigation.style.display = "grid";
+    navigation.style.display = "inline-flex";
     pagination.textContent = `${page} / ${pages}`;
     return;
   }

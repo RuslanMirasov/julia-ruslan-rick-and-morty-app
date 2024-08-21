@@ -1,4 +1,4 @@
-import { renderCardsMarkup } from "./components/card/card.js";
+import { renderCardsMarkup, loadImages } from "./components/card/card.js";
 import { getSerchQuery } from "./components/search-bar/search-bar.js";
 import {
   getNextPage,
@@ -37,6 +37,7 @@ async function fetchCharacters(page = 1, query = searchQuery) {
     updateStates(cards.info, page);
     updateNavigation(page, maxPage);
     renderCardsMarkup(cards.results);
+    loadImages();
   } catch (error) {
     console.log("error:", error);
   } finally {
