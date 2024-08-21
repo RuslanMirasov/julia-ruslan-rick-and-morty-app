@@ -1,4 +1,5 @@
 import { Header } from "./components/header/header.js";
+import { NavButton } from "./components/nav-button/nav-button.js";
 import { renderCardsMarkup, loadImages } from "./components/card/card.js";
 import { getSerchQuery } from "./components/search-bar/search-bar.js";
 import {
@@ -63,6 +64,7 @@ searchBar.addEventListener("submit", (e) => {
 const init = () => {
   let bodyMarkup = "";
   bodyMarkup += Header();
+  // bodyMarkup += NavButton("myclass", "sdsdsd", "Test button");
   bodyElement.insertAdjacentHTML("afterbegin", bodyMarkup);
 };
 
