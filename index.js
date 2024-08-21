@@ -1,52 +1,60 @@
 import { renderCardsMarkup } from "./components/card/card.js";
+import { getSerchQuery } from "./components/search-bar/search-bar.js";
 import {
-  goToNextPage,
-  goToPrevPage,
+  getNextPage,
+  getPrevPage,
+  updateNavigation,
 } from "./components/nav-pagination/nav-pagination.js";
 
-const cardContainer = document.querySelector('[data-js="card-container"]');
-const searchBarContainer = document.querySelector(
-  '[data-js="search-bar-container"]'
+export const cardContainer = document.querySelector(
+  '[data-js="card-container"]'
 );
+
 const searchBar = document.querySelector('[data-js="search-bar"]');
-const navigation = document.querySelector('[data-js="navigation"]');
-const prevButton = document.querySelector('[data-js="button-prev"]');
-const nextButton = document.querySelector('[data-js="button-next"]');
-const pagination = document.querySelector('[data-js="pagination"]');
+export const navigation = document.querySelector('[data-js="navigation"]');
+export const prevButton = document.querySelector('[data-js="button-prev"]');
+export const nextButton = document.querySelector('[data-js="button-next"]');
+export const pagination = document.querySelector('[data-js="pagination"]');
 
 // States
 let maxPage = 1;
-let nextPage = null;
-let prevPage = null;
 let page = 1;
-const searchQuery = "";
+let searchQuery = "";
 
-const updateStates = (info) => {
-  const { pages, next, prev } = info;
-  page = next ? Number(next?.split("page=")[1]) - 1 : maxPage;
-  nextPage = next;
-  prevPage = prev;
-  maxPage = pages;
-  pagination.innerHTML = `${page} / ${maxPage}`;
+const updateStates = (info, currentPage) => {
+  if (info) {
+    page = currentPage;
+    maxPage = info.pages;
+  }
 };
 
-export async function fetchCharacters(url) {
-  cardContainer.innerHTML = "";
+async function fetchCharacters(page = 1, query = searchQuery) {
+  cardContainer.classList.add("loading");
+  const url = `https://rickandmortyapi.com/api/character?page=${page}&name=${query}`;
   try {
     const data = await fetch(url);
     const cards = await data.json();
-    updateStates(cards.info);
-    renderCardsMarkup(cards.results, cardContainer);
+    updateStates(cards.info, page);
+    updateNavigation(page, maxPage);
+    renderCardsMarkup(cards.results);
   } catch (error) {
     console.log("error:", error);
+  } finally {
+    cardContainer.classList.remove("loading");
   }
 }
 
 nextButton.addEventListener("click", () => {
-  goToNextPage(nextPage, page);
-});
-prevButton.addEventListener("click", () => {
-  goToPrevPage(prevPage, page);
+  fetchCharacters(getNextPage(page, maxPage));
 });
 
-fetchCharacters("https://rickandmortyapi.com/api/character?page=1");
+prevButton.addEventListener("click", () => {
+  fetchCharacters(getPrevPage(page));
+});
+
+searchBar.addEventListener("submit", (e) => {
+  searchQuery = getSerchQuery(e);
+  fetchCharacters();
+});
+
+fetchCharacters();

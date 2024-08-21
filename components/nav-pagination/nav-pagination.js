@@ -1,15 +1,32 @@
-import { fetchCharacters } from "../../index.js";
+import { prevButton, nextButton, navigation, pagination } from "../../index.js";
 
-export const goToNextPage = (nextPage, currentPage) => {
-  if (nextPage) {
-    currentPage++;
-    fetchCharacters(nextPage);
-  }
+export const hideNavigation = () => {
+  navigation.style.display = "none";
 };
 
-export const goToPrevPage = (prevPage, currentPage) => {
-  if (prevPage) {
-    currentPage--;
-    fetchCharacters(prevPage);
+export const updateNavigation = (page, pages) => {
+  if (pages > 1) {
+    navigation.style.display = "grid";
+    pagination.textContent = `${page} / ${pages}`;
+    return;
   }
+  navigation.style.display = "none";
+};
+
+export const getNextPage = (page, max) => {
+  if (page < max) {
+    page++;
+    page === max && nextButton.setAttribute("disabled", true);
+    prevButton.removeAttribute("disabled");
+  }
+  return page;
+};
+
+export const getPrevPage = (page) => {
+  if (page > 1) {
+    page--;
+    page === 1 && prevButton.setAttribute("disabled", true);
+    nextButton.removeAttribute("disabled");
+  }
+  return page;
 };

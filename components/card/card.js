@@ -1,3 +1,6 @@
+import { cardContainer } from "../../index.js";
+import { hideNavigation } from "../nav-pagination/nav-pagination.js";
+
 function createCharacterCard(card) {
   const { image, name, status, type, episode } = card;
   const newCard = `
@@ -26,10 +29,13 @@ function createCharacterCard(card) {
   return newCard;
 }
 
-export const renderCardsMarkup = (cards, cardContainer) => {
-  const cardsMarkup = [];
-  cards.forEach((element) => {
-    cardsMarkup.push(createCharacterCard(element));
-  });
-  cardContainer.innerHTML = cardsMarkup.join("");
+export const renderCardsMarkup = (cards) => {
+  if (!cards) {
+    cardContainer.innerHTML = `<h2>404 - Not found!</h2>`;
+    hideNavigation();
+    return;
+  }
+
+  const cardsMarkup = cards.map(createCharacterCard).join("");
+  cardContainer.innerHTML = cardsMarkup;
 };
