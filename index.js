@@ -1,3 +1,4 @@
+import { Header } from "./components/header/header.js";
 import { renderCardsMarkup, loadImages } from "./components/card/card.js";
 import { getSerchQuery } from "./components/search-bar/search-bar.js";
 import {
@@ -10,6 +11,9 @@ export const cardContainer = document.querySelector(
   '[data-js="card-container"]'
 );
 
+const bodyElement = document.querySelector('[data-js="body"]');
+const header = Header();
+const header2 = Header();
 const searchBar = document.querySelector('[data-js="search-bar"]');
 export const navigation = document.querySelector('[data-js="navigation"]');
 export const prevButton = document.querySelector('[data-js="button-prev"]');
@@ -56,4 +60,11 @@ searchBar.addEventListener("submit", (e) => {
   fetchCharacters();
 });
 
+const init = () => {
+  let bodyMarkup = "";
+  bodyMarkup += Header();
+  bodyElement.insertAdjacentHTML("afterbegin", bodyMarkup);
+};
+
+init();
 fetchCharacters();
