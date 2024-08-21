@@ -38,9 +38,20 @@
 }
 
 .card__info {
-  display: grid;
-  grid-template-columns: auto 1fr;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
+
+.card__info span {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  align-content: center;
+  gap: 10px;
+  line-height: 1;
+}
+
 .card__content {
   padding: 10px 20px 20px;
   display: grid;
@@ -84,8 +95,37 @@
   z-index: 1;
 }
 
+.card__info-title {
+  display: inline-block;
+  width: auto;
+  text-align: left;
+  opacity: 0.6;
+  min-width: 46px;
+}
+
 .card__info-description {
-  text-align: right;
+  display: inline-block;
+  width: auto;
+  text-align: left;
+  max-width: 80%;
+}
+
+.card__info-description.greenText {
+  background: var(--color-green);
+  padding: 3px 5px;
+  border-radius: 4px;
+}
+
+.card__info-description.redText {
+  background: var(--color-red);
+  padding: 3px 5px;
+  border-radius: 4px;
+}
+
+.card__info-description.grayText {
+  background: var(--card-img-bg);
+  padding: 3px 5px;
+  border-radius: 4px;
 }
 
 .card__title {
