@@ -8,6 +8,12 @@ export const updateNavigation = (page, pages) => {
   if (pages > 1) {
     navigation.style.display = "inline-flex";
     pagination.innerHTML = `${page} / ${pages}`;
+    page === 1
+      ? prevButton.setAttribute("disabled", true)
+      : prevButton.removeAttribute("disabled");
+    page === pages
+      ? nextButton.setAttribute("disabled", true)
+      : nextButton.removeAttribute("disabled");
     return;
   }
   navigation.style.display = "none";
@@ -16,8 +22,6 @@ export const updateNavigation = (page, pages) => {
 export const getNextPage = (page, max) => {
   if (page < max) {
     page++;
-    page === max && nextButton.setAttribute("disabled", true);
-    prevButton.removeAttribute("disabled");
   }
   return page;
 };
@@ -25,8 +29,6 @@ export const getNextPage = (page, max) => {
 export const getPrevPage = (page) => {
   if (page > 1) {
     page--;
-    page === 1 && prevButton.setAttribute("disabled", true);
-    nextButton.removeAttribute("disabled");
   }
   return page;
 };

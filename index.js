@@ -56,7 +56,7 @@ const updateStates = (info, currentPage) => {
 };
 
 async function fetchCharacters(page = 1, query = searchQuery) {
-  cardContainer.innerHTML = "";
+  // cardContainer.innerHTML = "";
   const url = `https://rickandmortyapi.com/api/character?page=${page}&name=${query}`;
   try {
     const data = await fetch(url);

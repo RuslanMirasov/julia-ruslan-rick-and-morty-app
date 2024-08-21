@@ -4,6 +4,13 @@ import { hideNavigation } from "../nav-pagination/nav-pagination.js";
 
 function createCharacterCard(card) {
   const { image, name, status, type, episode } = card;
+  const colorClass =
+    status === "Alive"
+      ? "greenText"
+      : status === "Dead"
+      ? "redText"
+      : "grayText";
+
   const newCard = `
         <li class="card">
           <div class="card__image-container">
@@ -17,12 +24,13 @@ function createCharacterCard(card) {
           <div class="card__content">
             <h2 class="card__title">${name}</h2>
             <dl class="card__info">
-              <dt class="card__info-title">Status</dt>
-              <dd class="card__info-description">${status}</dd>
-              <dt class="card__info-title">Type</dt>
-              <dd class="card__info-description">${type}</dd>
-              <dt class="card__info-title">Occurrences</dt>
-              <dd class="card__info-description">${episode.length}</dd>
+              <span><dt class="card__info-title">Status:</dt><dd class="card__info-description ${colorClass}">${status}</dd></span>
+              <span><dt class="card__info-title">Type:</dt><dd class="card__info-description">${
+                type ? type : "unknown"
+              }</dd></span>
+              <span><dt class="card__info-title">Occurrences:</dt><dd class="card__info-description">${
+                episode.length
+              }</dd></span>
             </dl>
           </div>
         </li>
