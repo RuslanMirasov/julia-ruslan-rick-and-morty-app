@@ -7,7 +7,7 @@ export const hideNavigation = () => {
 export const updateNavigation = (page, pages) => {
   if (pages > 1) {
     navigation.style.display = "inline-flex";
-    pagination.textContent = `${page} / ${pages}`;
+    pagination.innerHTML = `${page} / ${pages}`;
     return;
   }
   navigation.style.display = "none";
@@ -29,4 +29,12 @@ export const getPrevPage = (page) => {
     nextButton.removeAttribute("disabled");
   }
   return page;
+};
+
+export const Pagination = () => {
+  const pagination = document.createElement("span");
+  pagination.classList.add("navigation__pagination");
+  pagination.setAttribute("data-js", "pagination");
+  pagination.innerHTML = "1 / 1";
+  return pagination;
 };
