@@ -29,7 +29,7 @@ const updateStates = (info, currentPage) => {
 };
 
 async function fetchCharacters(page = 1, query = searchQuery) {
-  cardContainer.classList.add("loading");
+  cardContainer.innerHTML = "";
   const url = `https://rickandmortyapi.com/api/character?page=${page}&name=${query}`;
   try {
     const data = await fetch(url);
@@ -40,8 +40,6 @@ async function fetchCharacters(page = 1, query = searchQuery) {
     loadImages();
   } catch (error) {
     console.log("error:", error);
-  } finally {
-    cardContainer.classList.remove("loading");
   }
 }
 
