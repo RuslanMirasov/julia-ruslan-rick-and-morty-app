@@ -1,3 +1,4 @@
+import { showNonFoundMassege } from "../notfound/notfound.js";
 import { cardContainer } from "../../index.js";
 import { hideNavigation } from "../nav-pagination/nav-pagination.js";
 
@@ -31,7 +32,7 @@ function createCharacterCard(card) {
 
 export const renderCardsMarkup = (cards) => {
   if (!cards) {
-    cardContainer.innerHTML = `<h2>404 - Not found!</h2>`;
+    cardContainer.innerHTML = showNonFoundMassege();
     hideNavigation();
     return;
   }
