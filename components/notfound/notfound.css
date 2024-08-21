@@ -1,0 +1,24 @@
+* {
+  box-sizing: border-box;
+}
+
+.notfound__image {
+  display: block;
+  margin-top: -50px;
+  width: 400px;
+  height: 400px;
+}
+.notfound__container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: 50%;
+  width: 100%;
+}
+
+.notfound__text {
+  color: white;
+  margin-top: -5%;
+  font-size: larger;
+}
