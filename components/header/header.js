@@ -1,7 +1,16 @@
 export const Header = () => {
-  return `
-   <header class="header">
-      <img src="./assets/logo.png" alt="Rick and Morty" />
-      <h1 class="title">Rick and Morty</h1>
-   </header>`;
+  const header = document.createElement("header");
+  header.classList.add("header");
+
+  const headerImage = document.createElement("img");
+  headerImage.setAttribute("src", "./assets/logo.png");
+  headerImage.setAttribute("alt", "Rick and Morty");
+
+  const headerTitle = document.createElement("h1");
+  headerTitle.classList.add("title");
+  headerTitle.innerHTML = "Rick and Morty";
+
+  header.append(headerImage, headerTitle);
+
+  return header;
 };

@@ -1,5 +1,6 @@
 import { Header } from "./components/header/header.js";
 import { NavButton } from "./components/nav-button/nav-button.js";
+import { Pagination } from "./components/nav-pagination/nav-pagination.js";
 import { renderCardsMarkup, loadImages } from "./components/card/card.js";
 import { getSerchQuery } from "./components/search-bar/search-bar.js";
 import {
@@ -8,23 +9,44 @@ import {
   updateNavigation,
 } from "./components/nav-pagination/nav-pagination.js";
 
+// States
+let maxPage = 1;
+let page = 1;
+let searchQuery = "";
+
 export const cardContainer = document.querySelector(
   '[data-js="card-container"]'
 );
 
 const bodyElement = document.querySelector('[data-js="body"]');
-const header = Header();
-const header2 = Header();
 const searchBar = document.querySelector('[data-js="search-bar"]');
 export const navigation = document.querySelector('[data-js="navigation"]');
-export const prevButton = document.querySelector('[data-js="button-prev"]');
-export const nextButton = document.querySelector('[data-js="button-next"]');
-export const pagination = document.querySelector('[data-js="pagination"]');
 
-// States
-let maxPage = 1;
-let page = 1;
-let searchQuery = "";
+const goToNextPage = () => {
+  fetchCharacters(getNextPage(page, maxPage));
+};
+
+const goToPrevPage = () => {
+  fetchCharacters(getPrevPage(page));
+};
+
+export const prevButton = NavButton(
+  "button--prev",
+  "button-prev",
+  "previous",
+  true,
+  goToPrevPage
+);
+export const nextButton = NavButton(
+  "button--next",
+  "button--next",
+  "next",
+  false,
+  goToNextPage
+);
+export const pagination = Pagination();
+
+navigation.append(prevButton, pagination, nextButton);
 
 const updateStates = (info, currentPage) => {
   if (info) {
@@ -48,25 +70,11 @@ async function fetchCharacters(page = 1, query = searchQuery) {
   }
 }
 
-nextButton.addEventListener("click", () => {
-  fetchCharacters(getNextPage(page, maxPage));
-});
-
-prevButton.addEventListener("click", () => {
-  fetchCharacters(getPrevPage(page));
-});
+bodyElement.insertAdjacentElement("afterbegin", Header());
 
 searchBar.addEventListener("submit", (e) => {
   searchQuery = getSerchQuery(e);
   fetchCharacters();
 });
 
-const init = () => {
-  let bodyMarkup = "";
-  bodyMarkup += Header();
-  // bodyMarkup += NavButton("myclass", "sdsdsd", "Test button");
-  bodyElement.insertAdjacentHTML("afterbegin", bodyMarkup);
-};
-
-init();
 fetchCharacters();
