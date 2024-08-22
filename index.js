@@ -1,86 +1,56 @@
-import {
-  getSerchQuery,
-  SearchBar,
-} from "./components/search-bar/search-bar.js";
-
-import {
-  getNextPage,
-  getPrevPage,
-  updateNavigation,
-} from "./components/nav-pagination/nav-pagination.js";
-import { Header } from "./components/header/header.js";
-import { NavButton } from "./components/nav-button/nav-button.js";
-import { Pagination } from "./components/nav-pagination/nav-pagination.js";
+// Imports
+import { Navigation, updateNavigation } from "./components/navigation/navigation.js";
 import { renderCardsMarkup, loadImages } from "./components/card/card.js";
+import { Header } from "./components/header/header.js";
+import { Main } from "./components/main/main.js";
 
-// States
-let maxPage = 1;
+// State
 let page = 1;
+let maxPage = 1;
 let searchQuery = "";
 
-export const cardContainer = document.querySelector(
-  '[data-js="card-container"]'
-);
-const bodyElement = document.querySelector('[data-js="body"]');
-const searchBarContainer = document.querySelector(
-  '[data-js="search-bar-container"]'
-);
-export const navigation = document.querySelector('[data-js="navigation"]');
+// Components
+export const header = Header();
+export const main = Main();
+export const navigation = Navigation();
 
-const handleSubmit = (e) => {
-  searchQuery = getSerchQuery(e);
-  fetchCharacters();
+document.body.append(header, main, navigation);
+
+// Methods
+export const getState = () => {
+  return {
+    page,
+    maxPage,
+    searchQuery,
+  };
 };
 
-const handleClickNext = () => {
-  fetchCharacters(getNextPage(page, maxPage));
+export const setState = (newPage = page, newQuery = searchQuery) => {
+  page = newPage;
+  searchQuery = newQuery;
+  fetchCharacters(page, searchQuery);
 };
 
-const handleClickPrev = () => {
-  fetchCharacters(getPrevPage(page));
-};
+const fetchCharacters = async (currentPage = 1, query = searchQuery) => {
+  const url = `https://rickandmortyapi.com/api/character?page=${currentPage}&name=${query}`;
+  const cardsContainer = main.querySelector('[data-js="card-container"]');
+  cardsContainer.innerHTML = "";
+  cardsContainer.classList.add("pending");
 
-export const pagination = Pagination();
-
-export const prevButton = NavButton(
-  "button--prev",
-  "button-prev",
-  "previous",
-  true,
-  handleClickPrev
-);
-export const nextButton = NavButton(
-  "button--next",
-  "button--next",
-  "next",
-  false,
-  handleClickNext
-);
-
-bodyElement.insertAdjacentElement("afterbegin", Header());
-navigation.append(prevButton, pagination, nextButton);
-searchBarContainer.append(SearchBar(handleSubmit));
-
-const updateStates = (info, currentPage) => {
-  if (info) {
-    page = currentPage;
-    maxPage = info.pages;
-  }
-};
-
-async function fetchCharacters(page = 1, query = searchQuery) {
-  cardContainer.innerHTML = "";
-  const url = `https://rickandmortyapi.com/api/character?page=${page}&name=${query}`;
   try {
-    const data = await fetch(url);
-    const cards = await data.json();
-    updateStates(cards.info, page);
-    updateNavigation(page, maxPage);
+    const cards = await (await fetch(url)).json();
+    page = currentPage;
+    maxPage = cards?.info?.pages;
+    updateNavigation(navigation, page, maxPage);
     renderCardsMarkup(cards.results);
-    loadImages();
+    loadImages(main);
   } catch (error) {
-    console.log("error:", error);
+    console.log("Fetch error: ", error);
+  } finally {
+    setTimeout(() => {
+      cardsContainer.classList.remove("pending");
+    }, 100);
   }
-}
+};
 
 fetchCharacters();

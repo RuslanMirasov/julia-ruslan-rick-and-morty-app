@@ -1,15 +1,10 @@
 import { showNonFoundMassege } from "../notfound/notfound.js";
-import { cardContainer } from "../../index.js";
-import { hideNavigation } from "../nav-pagination/nav-pagination.js";
+import { navigation, main } from "../../index.js";
+import { hideNavigation } from "../navigation/navigation.js";
 
 function createCharacterCard(card) {
   const { image, name, status, type, episode } = card;
-  const colorClass =
-    status === "Alive"
-      ? "greenText"
-      : status === "Dead"
-      ? "redText"
-      : "grayText";
+  const colorClass = status === "Alive" ? "greenText" : status === "Dead" ? "redText" : "grayText";
 
   const newCard = `
         <li class="card">
@@ -39,9 +34,10 @@ function createCharacterCard(card) {
 }
 
 export const renderCardsMarkup = (cards) => {
+  const cardContainer = main.querySelector('[data-js="card-container"]');
   if (!cards) {
     cardContainer.innerHTML = showNonFoundMassege();
-    hideNavigation();
+    hideNavigation(navigation);
     return;
   }
 
@@ -49,8 +45,8 @@ export const renderCardsMarkup = (cards) => {
   cardContainer.innerHTML = cardsMarkup;
 };
 
-export const loadImages = () => {
-  const images = cardContainer.querySelectorAll("img");
+export const loadImages = (section) => {
+  const images = section.querySelectorAll("img");
   images.forEach((image) => {
     image.addEventListener("load", (e) => {
       e.target.style.opacity = "1";

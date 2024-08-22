@@ -1,13 +1,6 @@
-export const getSerchQuery = (e) => {
-  e.preventDefault();
-  const form = e.target;
-  const formData = new FormData(form);
-  const searchQuery = formData.get("query").replace(/\s+/g, " ").trim();
-  form.reset();
-  return searchQuery;
-};
+import { setState } from "../../index.js";
 
-export const SearchBar = (onSubmit) => {
+export const SearchBar = () => {
   const searchForm = document.createElement("form");
   searchForm.classList.add("search-bar");
   searchForm.setAttribute("action", "");
@@ -32,9 +25,14 @@ export const SearchBar = (onSubmit) => {
   searchButton.append(searchButtonImage);
   searchForm.append(inputForm, searchButton);
 
-  if (onSubmit) {
-    searchForm.addEventListener("submit", onSubmit);
-  }
+  searchForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    const form = e.target;
+    const formData = new FormData(form);
+    const searchQuery = formData.get("query").replace(/\s+/g, " ").trim();
+    setState(1, searchQuery);
+    form.reset();
+  });
 
   return searchForm;
 };
